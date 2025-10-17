@@ -37,11 +37,10 @@ public class FrmOperadorLogistico extends JFrame {
         setTitle("Operador Logístico");
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-        // Barra de herramientas
         JToolBar tbOperador = new JToolBar();
 
         JButton btnAgregarEnvio = new JButton();
-        // Si los iconos no se encuentran, usar texto como fallback
+        // exepcion en caso de que no cargen los iconos
         try {
             btnAgregarEnvio.setIcon(new ImageIcon(getClass().getResource("/iconos/AgregarCuenta.png")));
         } catch (Exception e) {
@@ -69,11 +68,7 @@ public class FrmOperadorLogistico extends JFrame {
         });
         tbOperador.add(btnQuitarEnvio);
 
-        // Panel principal con BoxLayout (vertical)
-        JPanel pnlPrincipal = new JPanel();
-        pnlPrincipal.setLayout(new BoxLayout(pnlPrincipal, BoxLayout.Y_AXIS));
-
-        // Panel de edición - Visible por defecto para testing
+        JPanel pnlPrincipal = new JPanel(new BorderLayout());
         pnlEditarEnvio = new JPanel();
         pnlEditarEnvio.setPreferredSize(new Dimension(600, 120));
         pnlEditarEnvio.setLayout(null);
@@ -91,8 +86,8 @@ public class FrmOperadorLogistico extends JFrame {
         lblTipo.setBounds(180, 10, 40, 25);
         pnlEditarEnvio.add(lblTipo);
 
-        cmbTipoEnvio = new JComboBox<>(new String[]{"Terrestre", "Marítimo", "Aéreo"});
-        cmbTipoEnvio.setBounds(220, 10, 100, 25);
+        cmbTipoEnvio = new JComboBox<>(new String[] { "Terrestre", "Marítimo", "Aéreo" });
+        cmbTipoEnvio.setBounds(280, 10, 100, 25);
         pnlEditarEnvio.add(cmbTipoEnvio);
 
         // Segunda fila: Cliente y Distancia
@@ -101,15 +96,15 @@ public class FrmOperadorLogistico extends JFrame {
         pnlEditarEnvio.add(lblCliente);
 
         txtCliente = new JTextField();
-        txtCliente.setBounds(70, 40, 150, 25);
+        txtCliente.setBounds(70, 40, 100, 25);
         pnlEditarEnvio.add(txtCliente);
 
-        JLabel lblDistancia = new JLabel("Distancia Km");
-        lblDistancia.setBounds(230, 40, 80, 25);
+        JLabel lblDistancia = new JLabel("Distancia en Km");
+        lblDistancia.setBounds(180, 40, 100, 25);
         pnlEditarEnvio.add(lblDistancia);
 
         txtDistancia = new JTextField();
-        txtDistancia.setBounds(310, 40, 80, 25);
+        txtDistancia.setBounds(280, 40, 100, 25);
         pnlEditarEnvio.add(txtDistancia);
 
         // Tercera fila: Peso y botones
@@ -118,11 +113,11 @@ public class FrmOperadorLogistico extends JFrame {
         pnlEditarEnvio.add(lblPeso);
 
         txtPeso = new JTextField();
-        txtPeso.setBounds(70, 70, 80, 25);
+        txtPeso.setBounds(70, 70, 100, 25);
         pnlEditarEnvio.add(txtPeso);
 
         btnGuardar = new JButton("Guardar");
-        btnGuardar.setBounds(160, 70, 100, 25);
+        btnGuardar.setBounds(180, 70, 100, 25);
         btnGuardar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 btnGuardarEnvioClick();
@@ -131,7 +126,7 @@ public class FrmOperadorLogistico extends JFrame {
         pnlEditarEnvio.add(btnGuardar);
 
         btnCancelar = new JButton("Cancelar");
-        btnCancelar.setBounds(270, 70, 100, 25);
+        btnCancelar.setBounds(280, 70, 100, 25);
         btnCancelar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 btnCancelarEnvioClick();
@@ -139,23 +134,17 @@ public class FrmOperadorLogistico extends JFrame {
         });
         pnlEditarEnvio.add(btnCancelar);
 
-        //Hacer visible el panel de edición
         pnlEditarEnvio.setVisible(true);
 
         // Tabla de envíos
-        String[] columnNames = {"Tipo", "Código", "Cliente", "Peso", "Distancia", "Costo"};
-        tblEnvios = new JTable(new Object[][]{}, columnNames);
+        String[] columnNames = { "Tipo", "Código", "Cliente", "Peso", "Distancia", "Costo" };
+        tblEnvios = new JTable(new Object[][] {}, columnNames);
         JScrollPane spListaEnvios = new JScrollPane(tblEnvios);
-
-        // Agregar componentes al panel principal
-        pnlPrincipal.add(pnlEditarEnvio);
-        pnlPrincipal.add(spListaEnvios);
-
-        // Agregar componentes al frame
+        pnlPrincipal.add(pnlEditarEnvio, BorderLayout.NORTH);
+        pnlPrincipal.add(spListaEnvios, BorderLayout.CENTER);
         getContentPane().add(tbOperador, BorderLayout.NORTH);
         getContentPane().add(pnlPrincipal, BorderLayout.CENTER);
 
-        // Cargar datos de ejemplo
         cargarDatosEjemplo();
     }
 
@@ -164,16 +153,15 @@ public class FrmOperadorLogistico extends JFrame {
         envioServicio.agregarEnvio(new Terrestre("10001", "Polimeros Col", 1200.0, 400.0));
         envioServicio.agregarEnvio(new Terrestre("10002", "Textiles Pepalta", 500.0, 600.0));
         envioServicio.agregarEnvio(new Aereo("10003", "Flores Colombi", 1500.0, 2000.0));
-        
+
         actualizarTabla();
     }
 
     private void actualizarTabla() {
         Object[][] datos = envioServicio.obtenerDatosParaTabla();
         tblEnvios.setModel(new DefaultTableModel(
-            datos,
-            new String[]{"Tipo", "Código", "Cliente", "Peso", "Distancia", "Costo"}
-        ));
+                datos,
+                new String[] { "Tipo", "Código", "Cliente", "Peso", "Distancia", "Costo" }));
     }
 
     private void btnAgregarEnvioClick() {
@@ -203,13 +191,13 @@ public class FrmOperadorLogistico extends JFrame {
             double peso = UtilServicio.leerReal(txtPeso.getText());
             double distancia = UtilServicio.leerReal(txtDistancia.getText());
 
-            if (UtilServicio.esTextoValido(numero) && 
-                UtilServicio.esTextoValido(cliente) && 
-                peso > 0 && distancia > 0) {
-                
-                Envio nuevoEnvio = EnvioFactory.crearEnvio(tipo, numero, cliente, peso, distancia);
+            if (UtilServicio.esTextoValido(numero) &&
+                    UtilServicio.esTextoValido(cliente) &&
+                    peso > 0 && distancia > 0) {
+
+                Envio nuevoEnvio = UtilEnvio.crearEnvio(tipo, numero, cliente, peso, distancia);
                 envioServicio.agregarEnvio(nuevoEnvio);
-                
+
                 actualizarTabla();
                 pnlEditarEnvio.setVisible(false);
                 limpiarCampos();

@@ -1,5 +1,4 @@
-// Factory para crear envíos - Depende de abstracciones, no de implementaciones concretas
-public class EnvioFactory {
+public class UtilEnvio {
     public static Envio crearEnvio(String tipo, String codigo, String cliente, 
                                   double peso, double distancia) {
         switch (tipo.toLowerCase()) {

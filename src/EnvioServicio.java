@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
 
-// Servicio que maneja la lógica de negocio (S - Single Responsibility)
+// Servicio que maneja la lógica de negocio 
 public class EnvioServicio {
     private List<Envio> envios;
     
@@ -9,12 +9,10 @@ public class EnvioServicio {
         this.envios = new ArrayList<>();
     }
     
-    // O - Open/Closed: Podemos agregar nuevos tipos de Envio sin modificar este código
     public void agregarEnvio(Envio envio) {
         envios.add(envio);
     }
     
-    // L - Liskov Substitution: Todos los subtipos de Envio pueden usarse aquí
     public boolean quitarEnvio(int posicion) {
         if (posicion >= 0 && posicion < envios.size()) {
             envios.remove(posicion);
@@ -24,10 +22,10 @@ public class EnvioServicio {
     }
     
     public List<Envio> getEnvios() {
-        return new ArrayList<>(envios); // Retorna copia para encapsulamiento
+        return new ArrayList<>(envios); 
     }
     
-    // Polimorfismo en acción - cada envio calcula su tarifa específica
+    //calcular tarifa dependiendo del tipo
     public double calcularTarifaEnvio(int posicion) {
         if (posicion >= 0 && posicion < envios.size()) {
             return envios.get(posicion).calcularTarifa();
@@ -35,7 +33,6 @@ public class EnvioServicio {
         throw new IllegalArgumentException("Posición inválida");
     }
     
-    // Método para mostrar en tabla
     public Object[][] obtenerDatosParaTabla() {
         Object[][] datos = new Object[envios.size()][6];
         

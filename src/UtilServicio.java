@@ -1,4 +1,3 @@
-// Servicio de utilidad para validaciones y conversiones
 public class UtilServicio {
     
     public static double leerReal(String texto) {
